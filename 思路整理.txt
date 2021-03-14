@@ -1,0 +1,71 @@
+
+1. 哪些烧录内容是能正常工作的，清理资料
+
+关于烧录：
+a>   SD卡，需要用sd-flasher进行处理
+b>   将镜像文件目录 images 拷贝到sd 卡中；
+c>   手动修改 FriendlyARM.ini 中的内容，打开要烧录的系统配置（tiny4412实验时发现会自动选择android系统）
+d>   如果FriendlyARM.ini 中配置了USB-Mode 则将sd卡 装到主板上后，不能直接引导系统烧录和开机，而是需要从 MiniTools 里修改烧录内容
+e>   如果没有配置USB-Mode则 从SD 卡启动时，会自动烧录android系统到主板上
+f>   烧录内容路径： G:\Android_4\FriendlyARM-4412-DVD\4412-DVD-B-17022\images
+
+
+
+uboot_tiny4412-master 从韦东山git仓库下载
+
+
+
+2. 手动编译出来的文件是否可以跑起来，快速调试方法——文件转移，烧录，开发目录
+
+a>  配置samba服务器,参考  J:\开发环境搭建\开发环境搭建\002_搭建文件服务器\samba， 
+b>  配置成功后选择桥接模式， ifconfig eth0 192.168.1.112 单独修改IP即可从windows 网络位置处快速访问，用户名 book 密码 123456
+c>  编译android，参考Tiny4412 用户手册 3.3小节，3.4小节，3.5小节 编译生成烧录文件
+	c1>   . setenv
+	c2>   make 
+	c3>   ./gen-img.sh
+d>  用编译出的烧录文件替换sd卡中的，然后重新烧录
+e>  已验证android 5.0.2 编译出的文件系统映像  ramdisk-u.img  userdata-4g.img  system.img  可以正常运行；
+		iTest不开源，但是可以使用 G:\Android_4\FriendlyARM-4412-DVD\4412-DVD-A-17022\tools\libfriendlyarm-hardware.zip  API 开发应用程序
+		案例代码：G:\Android_4\FriendlyARM-4412-DVD\4412-DVD-A-17022\Android5.0.2\examples
+
+A>  编译替换内核
+	A1>  cd /opt/tiny4412/linux-3.0.86
+	A2>  cp tiny4412_android_defconfig .config ;注意 config 前面有个”.”    
+		make menuconfig
+	A3>  make
+	A4>  生成的文件所在路径为：/opt/tiny4412/linux-3.0.86/arch/arm/boot/zImage
+	A5>  替换zImage后,android系统可以正常运行
+
+B>  编译替换u-boot
+
+
+
+3. uboot，根文件系统
+
+
+
+4. 开发环境搭建资料整理
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
