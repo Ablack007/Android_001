@@ -31,20 +31,35 @@ e>  已验证android 5.0.2 编译出的文件系统映像  ramdisk-u.img  userda
 A>  编译替换内核
 	A1>  cd /opt/tiny4412/linux-3.0.86
 	A2>  cp tiny4412_android_defconfig .config ;注意 config 前面有个”.”    
-		make menuconfig
+			make menuconfig
 	A3>  make
 	A4>  生成的文件所在路径为：/opt/tiny4412/linux-3.0.86/arch/arm/boot/zImage
 	A5>  替换zImage后,android系统可以正常运行
 
 B>  编译替换u-boot
+	参考文章：https://blog.csdn.net/qq_23922117/article/details/78312908
+	B1>  cd /opt/tiny4412/uboot_tiny4412
+	B2>  make tiny4412_config
+	B3>  make
+	B4>  编译 用于生成bl2 的工具
+			B4.1>   cd sd_fuse
+			B4.2>   make
+			B4.3>   /opt/tiny4412/uboot_tiny4412/sd_fuse/tiny4412/sd_fusing.sh  /dev/sdb   //此时已经将uboot烧录到了SD卡中
+	B5>  将SD卡插入到开发板中，并从SD卡启动，串口将打印"OK",如截图“uboot启动截图.png”
+			B5.1>  串口波特率需要修改，修改后断开，然后重新连接，可以看到截图中u-boot的启动信息
 
 
-
-3. uboot，根文件系统
-
+	查看SD卡分区信息 串口中输入如下命令 fdisk -p 0
 
 
-4. 开发环境搭建资料整理
+3. 学习根文件系统
+	安装DNW,把uboot相关文件下载进入开发板RAM,并通过板子上已经运行的uboot把RAM的文件写入eMMC
+	https://blog.csdn.net/qq_23922117/article/details/78312908
+
+4. 开发学习
+	1. 硬件访问服务
+	手动编写LED驱动，编译运行驱动LED开发，参考如下视频链接
+	驱动LED开发：https://www.100ask.net/detail/v_5e901610d8f51_6Uq51oJq/3?from=p_5e8fd02467d9a_emvBFUrx&type=6
 
 
 
